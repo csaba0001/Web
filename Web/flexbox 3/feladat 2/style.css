@@ -1,0 +1,50 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+.flex-container{
+    display: flex;
+    width: 80%;
+    height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: row-reverse;
+    gap: 18px;
+    padding: 18px;
+
+}
+.lila{
+    background-color: purple;
+    padding: 6px;
+    height: 40px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+}
+
+.kek{
+    background-color: lightskyblue;
+    height: 30px;
+    width: 90px;
+}
+
+.sarga{
+    background-color: yellow;
+    flex-grow: 2;
+}
+.zold{
+    background-color: green;
+    flex-grow: 1;
+}
+
+.szurke{
+    display: flex;
+    width: 80%;
+    height: 100px;
+    background-color: gray;
+    margin-left: auto;
+    margin-right: auto;
+}

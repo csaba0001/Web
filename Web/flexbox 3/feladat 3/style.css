@@ -1,0 +1,56 @@
+*{
+    margin:0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(233, 207, 174);
+}
+
+.keret{
+    width: 600px;
+    height: 600px;
+}
+
+.fenti{
+    background-color: aqua;
+    height: 50px;
+}
+.kozep{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+#narancs{
+    background-color: orange;
+    flex-grow: 1;
+    height: 500px;
+}
+
+#piros{
+    background-color: red;
+    flex-grow: 5;
+}
+
+#lila{
+    background-color: blueviolet;
+    flex-grow: 1;
+}
+
+.kek{
+    background-color: blue;
+    height: 50px;
+}
+
+.kulsosor{
+    justify-content: flex-end;
+    display: flex;
+}
+
+#fekete{
+    background-color: black;
+    width: 40px;
+    height: 40px;
+    margin-right: 100px;
+}
