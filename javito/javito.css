@@ -1,0 +1,31 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+#container{
+    width: 60%;
+    height: 600px;
+    margin: auto;
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.tarolodoboz{
+    width: 40%;
+    height: 40%;
+}
+
+#tar1{
+    background-color: chocolate;
+}
+#tar2{
+    background-color: blanchedalmond;
+}
+#tar3{
+    background-color: darkblue;
+}
