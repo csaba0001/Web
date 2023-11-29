@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2 x 2</title>
+    <style>
+        body {
+            /*display: absolute;*/
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(2, 300px);
+            grid-template-rows: repeat(2, 300px);
+
+        }
+
+        .item {
+            background-color: yellow;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+
+    <script>
+        const colors = ['yellow', 'blue', 'red'];
+        document.addEventListener('DOMContentLoaded', function () {
+            const gridItems = document.querySelectorAll('.item');
+            gridItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    cycleColors(this);
+                });
+            });
+
+            function cycleColors(element) {
+                
+                const currentColor = element.style.backgroundColor || 'yellow';
+                const currentIndex = colors.indexOf(currentColor);
+                const next = (currentIndex + 1) % colors.length;
+
+                const nextC = colors[next];
+
+                element.style.backgroundColor = nextC;
+            }
+        });
+    </script>
+
+</body>
+</html>

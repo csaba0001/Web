@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object 4</title>
+    <style>
+
+        body{
+            background-color: cornflowerblue;
+        }
+
+        #keret{
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            gap: 12px;
+        }
+
+        .c{
+            border: 1px solid black;
+            border-radius: 20px;
+            padding: 6px;
+            text-align: center;
+            padding-top: 100px;
+            width: 200px;
+            height: 150px;
+            background-color: cadetblue;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="keret">
+        
+    </div>
+
+    <script>
+        let heroes = [
+            {firstName: "Ahsoka", lastName: "Tano", job: "padawan"},
+            {firstName: "Boba", lastName: "Fett", job: "fejvadász"},
+            {firstName: "Han", lastName: "Solo", job: "csempész"},
+            {firstName: "Magyar", lastName: "Erik", job: "ember"},
+            {firstName: "Nagy", lastName: "József", job: "egyéb"},
+            {firstName: "Török", lastName: "Ignác", job: "szakember"},
+            {firstName: "Kiss", lastName: "Pista", job: "festő"},
+            ]
+            let x = document.getElementById("keret");
+            
+
+            let db = heroes.length;
+            let ki = "";
+            for(let i = 0; heroes.length > i; i++){
+                ki += `<div class="c">${heroes[i].firstName}  ${heroes[i].lastName}  ${heroes[i].job}</div>`;
+                x.innerHTML = ki;
+            }
+            
+
+    </script>
+</body>
+</html>

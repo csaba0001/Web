@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object 3</title>
+</head>
+<body>
+
+    <script>
+        let fizetes = {
+        Anna : 2100,
+        Cecil : 1890,
+        Emil : 2050,
+        Gerald : 2920
+        }
+
+        let ossz = 0;
+        for (const [key, value] of Object.entries(fizetes)){
+            console.log(key + " - " + value);
+            ossz += value;
+        }
+        console.log("Összesen: " + ossz);
+
+    </script>
+</body>
+</html>

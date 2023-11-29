@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object 2</title>
+</head>
+<body>
+    <script>
+        function isEmpty(x){
+            if(Object.keys(x).length == 0){
+                console.log("üres")
+            }
+            else{
+                console.log("nem üres")
+            }
+        }
+        isEmpty({});
+        isEmpty({name:"John"});
+
+        //function isEmpty(x){
+        //    if(Object.keys(x).length == 0){
+        //        return true;
+        //    }
+        //    else{
+        //        return false;
+        //    }
+        //}
+        //console.log(isEmpty({}));
+        //console.log(isEmpty({name:"John"}));
+
+    </script>
+</body>
+</html>
