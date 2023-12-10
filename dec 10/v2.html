@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memóriajáték</title>
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: monospace;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: rgb(12, 46, 75);
+        }
+        .container{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 30px;
+            background-color: rgb(25, 21, 87);
+            padding: 40px 60px;
+        }
+        h2
+        {
+            font-size: 3em;
+            color: white;
+            text-transform: uppercase;
+        }
+        .reset{
+            padding: 15px 20px;
+            color: rgb(25, 21, 87);
+            background-color: white;
+            border: none;
+            font-size: 1.5em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .game{
+            width: 430px;
+            height: 430px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            transform-style: preserve-3d;
+            perspective: 500px;
+
+        }
+        .item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3em;
+            background: #fff;
+            transform: rotateY(0deg);
+            transition: 0.25s;
+        }
+        .item.boxOpen{
+            transform: rotateY(0deg);
+        }
+
+        .item:after{
+            content:'';
+            position: absolute;
+            inset: 0;
+            background-color: rgb(4, 81, 55);
+            opacity: 1;
+            transition: 0.25s;
+            transform: rotateY(0deg);
+            backface-visibility: hidden;
+        }
+
+        .boxMatch:after , .boxOpen::after{
+            transform: rotateY(180deg);
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Memóriajáték</h2>
+        <div class="game"></div>
+        <button class="reset" onClick="window.location.reload();">reset</button>
+    </div>
+    <script>
+        const stolenfromindia = ["🫎","🫎","🐽","🐽","🐑","🐑","🦞","🦞","🦚","🦚","🪰","🪰","✈️","✈️","🗼","🗼"]
+        const aaaaaa = stolenfromindia.sort((a, b) => 0.5 - Math.random()); //ez nagyon gagyi, de a fisher yateshez meg hülye vagyok
+        for (var i = 0 ; i < stolenfromindia.length ; i++){
+            let box = document.createElement('div')
+            box.className = 'item';
+            box.innerHTML = aaaaaa[i]
+
+            box.onclick = function(){
+                this.classList.add('boxOpen')
+                setTimeout(function(){
+                    if(document.querySelectorAll('.boxOpen').length > 1){
+                        if(document.querySelectorAll('.boxOpen')[0].innerHTML == document.querySelectorAll('.boxOpen')[1].innerHTML){
+                            document.querySelectorAll('.boxOpen')[0].classList.add('boxMatch')
+                            document.querySelectorAll('.boxOpen')[1].classList.add('boxMatch')
+
+                            document.querySelectorAll('.boxOpen')[1].classList.remove('boxOpen')
+                            document.querySelectorAll('.boxOpen')[0].classList.remove('boxOpen')
+
+                            if(document.querySelectorAll('.boxMatch').length == stolenfromindia.length){
+                                alert("Nyertél!")
+                            }
+                        }
+                        else{
+                            document.querySelectorAll('.boxOpen')[1].classList.remove('boxOpen')
+                            document.querySelectorAll('.boxOpen')[0].classList.remove('boxOpen')
+                        }
+                    }
+
+                },500)
+            }
+
+            document.querySelector('.game').appendChild(box);
+        }
+    </script>
+</body>
+</html>
