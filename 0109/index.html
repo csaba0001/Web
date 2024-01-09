@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>megfordító</title>
+    <style>*{text-align: center; margin: 8px;}</style>
+</head>
+<body>
+    <div>
+        <label for="tb">szöveget ide</label>
+        <input type="text" name="tb" id="tb">
+    </div>
+    <div>
+        <button onclick="reverse()">Megfordít</button>
+    </div>
+    <div>
+        <p id="out"></p>
+    </div>
+    <script>
+        const reverse = () => {
+            var input = document.getElementById("tb").value;
+            var inputr = input.split("").reverse().join("");
+            var outp = document.getElementById("out").innerHTML = inputr;
+        }
+    </script>
+</body>
+</html>
