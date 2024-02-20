@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fetch type beat</title>
+</head>
+<body>
+    <div>
+        <input type="number" name="number" id="number" max="30" min="1" value="1">
+        <button onclick="yeh();">kiírás</button>
+    </div>
+    <div>
+        <p id="kiiras"></p>
+    </div>
+
+    <script>
+        function yeh(){
+            let number = document.getElementById("number").value;
+            let d = document.getElementById("kiiras");
+            d.innerHTML = "";
+            fetch('https://jsonplaceholder.org/users/?id=' + number)
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(user => {
+            d.innerHTML += "ID: " + user.id + "<br>"; 
+            d.innerHTML += "Név: " + user.firstname + " " + user.lastname + "<br>";
+            d.innerHTML +=  "Telefonszám: " + user.phone + "<br>";
+            d.innerHTML += "E-mail: " + user.email + "<br>";
+            d.innerHTML += "Cím: " + user.address.city + " " + user.address.street + " " + user.address.suite + "<br>";
+            d.innerHTML += "Geolokációs adatok: " + user.address.geo.lat + " " + user.address.geo.lng + "<br>"
+            d.innerHTML += "Cégadatok: " + user.company.name + " ,szolgenje: " + user.company.catchPhrase + ", cég típusa: " + user.company.bs + "<br>";
+            d.innerHTML += "Weblap címe: " + user.website + "<br>";
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+
+    </script>
+
+</body>
+</html>
