@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="szoveg" name="szoveg">
+    <button onclick="leker();">Lekérés</button>
+
+    <script>
+        function leker(){
+            var bekert = document.getElementById("szoveg").value;
+            fetch('https://hur.webmania.cc/zips/' + bekert + '.json')
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(megye => {
+                if(megye.zips.length < 1){
+                    console.log("Nincs a keresésnek megfelelő találat.")
+                }
+                else{
+                    for(let i = 0; i < megye.zips.length; i++){
+                        console.log(megye.zips[i].zip);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        }
+
+        
+    </script>
+</body>
+</html>
