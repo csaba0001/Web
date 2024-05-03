@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurzusok</title>
+<style>
+    .course {
+        border: 1px solid #ccc;
+        margin: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    .students {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    .studentItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+</style>
+</head>
+<body>
+
+<h1>Kurzusok</h1>
+
+<div id="coursesContainer" style="display: flex; flex-wrap: wrap;"></div>
+
+<input type="text" id="newCourseName" placeholder="Új kurzus neve">
+<button onclick="createCourse()">Új kurzus létrehozása</button>
+
+<div id="studentDetails"></div>
+
+<script>
+const url = "https://vvri.pythonanywhere.com/api/courses";
+
+const expandedCourses = {};
+
+function createCourse() {
+    const courseName = document.getElementById("newCourseName").value;
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: courseName })
+    })
+    .then(response => response.json())
+    .then(data => console.log("Új kurzus létrehozva: ", data))
+    .catch(error => console.log("Hiba történt: " + error));
+
+    // fájdalom és szenvedés
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('coursesContainer').innerHTML = '';
+        data.forEach(course => {
+            addCoursePanel(course);
+        });
+    })
+    .catch(error => console.log("Hiba történt: " + error));
+}
+
+function addCoursePanel(course) {
+    const coursePanel = document.createElement('div');
+    coursePanel.classList.add('course');
+    coursePanel.dataset.courseId = course.id;
+    coursePanel.innerHTML = `
+        <div>
+            Kurzus neve: ${course.name}
+            <button onclick="toggleStudents(${course.id})">Diákok lenyitása</button>
+            <button onclick="addStudent(${course.id})">Új diák hozzáadása</button>
+            <button onclick="deleteCourse(${course.id})">Törlés</button>
+        </div>
+        <div class="students" id="students_${course.id}">
+            <h3>Diákok:</h3>
+            ${course.students.map(student => `
+                <div class="studentItem">
+                    <span id="studentName_${student.id}">${student.name}</span>
+                    <button onclick="editStudentName(${student.id})">Szerkesztés</button>
+                    <button onclick="deleteStudent(${course.id}, ${student.id}, this)">TÖRLÉS</button>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    document.getElementById('coursesContainer').appendChild(coursePanel);
+}
+
+function editStudentName(studentId) {
+    const studentNameElement = document.getElementById(`studentName_${studentId}`);
+    const newStudentName = prompt("Kérem, adja meg a diák új nevét:", studentNameElement.innerText);
+    if (newStudentName !== null) {
+        fetch(`${url}/students/${studentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: newStudentName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            studentNameElement.innerText = data.name;
+        })
+        .catch(error => console.log("Hiba történt: " + error));
+    }
+}
+
+function deleteStudent(courseId, studentId, button) {
+    const studentElement = button.parentNode;
+    studentElement.remove();
+}
+
+function deleteCourse(courseId) {
+    const coursePanel = document.querySelector(`.course[data-course-id="${courseId}"]`);
+    if (coursePanel) {
+        coursePanel.remove();
+    }
+}
+
+function addStudent(courseId) {
+    const studentName = prompt("Kérem, adja meg az új diák nevét:");
+    if (studentName) {
+        fetch(`${url}/${courseId}/students`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'},
+            body: JSON.stringify({ name: studentName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const newStudentId = data.id;
+            const studentElement = document.createElement('div');
+            studentElement.classList.add('studentItem');
+            studentElement.innerHTML = `
+                <span id="studentName_${newStudentId}">${data.name}</span>
+                <button onclick="editStudentName(${newStudentId})">Szerkesztés</button>
+                <button onclick="deleteStudent(${courseId}, ${newStudentId}, this)">TÖRLÉS</button>
+            `;
+            document.getElementById(`students_${courseId}`).appendChild(studentElement);
+        })
+        .catch(error => console.log("Hiba történt: " + error));
+    }
+}
+
+function toggleStudents(courseId) {
+    const studentsElement = document.getElementById(`students_${courseId}`);
+    if (expandedCourses[courseId]) {
+        studentsElement.style.maxHeight = '0';
+        expandedCourses[courseId] = false;
+    } else {
+        studentsElement.style.maxHeight = `${studentsElement.scrollHeight}px`;
+        expandedCourses[courseId] = true;
+    }
+}
+
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+        if (data) {
+            data.forEach(course => {
+                addCoursePanel(course);
+            });
+        }
+    })
+    .catch(error => console.log("Hiba történt: " + error));
+</script>
+
+</body>
+</html>
