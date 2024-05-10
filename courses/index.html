@@ -97,6 +97,7 @@ function editStudentName(studentId) {
     const studentNameElement = document.getElementById(`studentName_${studentId}`);
     const newStudentName = prompt("Kérem, adja meg a diák új nevét:", studentNameElement.innerText);
     if (newStudentName !== null) {
+        console.log(newStudentName);
         fetch(`${url}/students/${studentId}`, {
             method: 'PUT',
             headers: {
@@ -106,7 +107,7 @@ function editStudentName(studentId) {
         })
         .then(response => response.json())
         .then(data => {
-            studentNameElement.innerText = data.name;
+            studentNameElement.innerText = newStudentName;
         })
         .catch(error => console.log("Hiba történt: " + error));
     }
@@ -139,7 +140,7 @@ function addStudent(courseId) {
             const studentElement = document.createElement('div');
             studentElement.classList.add('studentItem');
             studentElement.innerHTML = `
-                <span id="studentName_${newStudentId}">${data.name}</span>
+                <span id="studentName_${newStudentId}">${studentName}</span>
                 <button onclick="editStudentName(${newStudentId})">Szerkesztés</button>
                 <button onclick="deleteStudent(${courseId}, ${newStudentId}, this)">TÖRLÉS</button>
             `;
