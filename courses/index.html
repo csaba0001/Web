@@ -97,7 +97,7 @@ function editStudentName(studentId) {
     const studentNameElement = document.getElementById(`studentName_${studentId}`);
     const newStudentName = prompt("Kérem, adja meg a diák új nevét:", studentNameElement.innerText);
     if (newStudentName !== null) {
-        fetch(`${url}/students${studentId}`, {
+        fetch(`${url}/students/${studentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
