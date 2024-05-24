@@ -105,37 +105,6 @@ function addCoursePanel(course) {
     document.getElementById('coursesContainer').appendChild(coursePanel);
 }
 
-function editStudentName(studentId) {
-    const studentNameElement = document.getElementById(`studentName_${studentId}`);
-    const newStudentName = prompt("Kérem, adja meg a diák új nevét:", studentNameElement.innerText);
-    if (newStudentName !== null) {
-        console.log(newStudentName);
-        fetch(`${url}/students/${studentId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: newStudentName })
-        })
-        .then(response => response.json())
-        .then(data => {
-            studentNameElement.innerText = newStudentName;
-        })
-        .catch(error => console.log("Hiba történt: " + error));
-    }
-}
-
-function deleteStudent(courseId, studentId, button) {
-    const studentElement = button.parentNode;
-    studentElement.remove();
-}
-
-function deleteCourse(courseId) {
-    const coursePanel = document.querySelector(`.course[data-course-id="${courseId}"]`);
-    if (coursePanel) {
-        coursePanel.remove();
-    }
-}
 
 function addStudent(courseId) {
     const studentName = prompt("Kérem, adja meg az új diák nevét:");
@@ -161,6 +130,61 @@ function addStudent(courseId) {
         .catch(error => console.log("Hiba történt: " + error));
     }
 }
+
+
+function editStudentName(studentId) {
+    const studentNameElement = document.getElementById(`studentName_${studentId}`);
+    const newStudentName = prompt("Kérem, adja meg a diák új nevét:", studentNameElement.innerText);
+    if (newStudentName !== null) {
+        console.log(newStudentName);
+        fetch(`${url}/students/${studentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: newStudentName })
+        })
+        .then(response => response.json())
+        .then(data => {
+            studentNameElement.innerText = newStudentName;
+        })
+        .catch(error => console.log("Hiba történt: " + error));
+    }
+}
+
+function deleteStudent(courseId, studentId, button) {
+    fetch(`${url}/students/${studentId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            const studentElement = button.parentNode;
+            studentElement.remove();
+        } else {
+            console.log("Hiba a diák törlésekor");
+        }
+    })
+    .catch(error => console.log(`Hiba történt: ${error}`));
+}
+
+function deleteCourse(courseId) {
+    fetch(`${url}/courses/${courseId}`, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            const coursePanel = document.querySelector(`.course[data-course-id="${courseId}"]`);
+            if (coursePanel) {
+                coursePanel.remove();
+            }
+        } else {
+            console.log("Nem sikerült törölni a kurzust.");
+        }
+    })
+    .catch(error => console.log(`Hiba történt: ${error}`));
+}
+
+
 
 function toggleStudents(courseId) {
     const studentsElement = document.getElementById(`students_${courseId}`);
