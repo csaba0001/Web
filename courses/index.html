@@ -29,20 +29,32 @@
 </head>
 <body>
 
-<h1>Kurzusok</h1>
-
-<div id="coursesContainer" style="display: flex; flex-wrap: wrap;"></div>
-
-<input type="text" id="newCourseName" placeholder="Új kurzus neve">
-<button onclick="createCourse()">Új kurzus létrehozása</button>
-
-<div id="studentDetails"></div>
-
-<script>
-const url = "https://vvri.pythonanywhere.com/api";
-
-const expandedCourses = {};
-
+    <h1>Kurzusok</h1>
+    
+    <div id="coursesContainer" style="display: flex; flex-wrap: wrap;"></div>
+    
+    <input type="text" id="newCourseName" placeholder="Új kurzus neve">
+    <button onclick="createCourse()">Új kurzus létrehozása</button>
+    
+    <div id="studentDetails"></div>
+    
+    <script>
+        const url = "https://vvri.pythonanywhere.com/api";
+        
+        const expandedCourses = {};
+      function load(){
+        fetch(url+"/courses")
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    data.forEach(course => {
+                        addCoursePanel(course);
+                    });
+                }
+            })
+            .catch(error => console.log("Hiba történt: " + error));
+        }
+        load();
 function createCourse() {
     const courseName = document.getElementById("newCourseName").value;
     fetch(url+"/courses", {
@@ -128,11 +140,11 @@ function deleteCourse(courseId) {
 function addStudent(courseId) {
     const studentName = prompt("Kérem, adja meg az új diák nevét:");
     if (studentName) {
-        fetch(`${url}/courses/${courseId}`, {
+        fetch(`${url}/students`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'},
-            body: JSON.stringify({ name: studentName })
+            body: JSON.stringify({ name: studentName,  course_id: courseId})
         })
         .then(response => response.json())
         .then(data => {
@@ -160,17 +172,6 @@ function toggleStudents(courseId) {
         expandedCourses[courseId] = true;
     }
 }
-
-fetch(url+"/courses")
-    .then(response => response.json())
-    .then(data => {
-        if (data) {
-            data.forEach(course => {
-                addCoursePanel(course);
-            });
-        }
-    })
-    .catch(error => console.log("Hiba történt: " + error));
 </script>
 
 </body>
